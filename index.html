@@ -1,0 +1,699 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>DigitalPoint · Innova tu vida</title>
+  <meta name="description" content="DigitalPoint: Computadoras, celulares, tablets y accesorios seleccionados.">
+  <meta name="theme-color" content="#f4f4f2">
+  <script>document.documentElement.classList.add('js');</script>
+  <link rel="icon" href="assets/img/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="assets/img/favicon.ico" sizes="48x48">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="assets/css/styles.css?v=19">
+</head>
+<body>
+
+  <header class="nav" data-nav>
+    <a class="brand" href="#inicio" aria-label="DigitalPoint, ir al inicio">
+      <img class="logo-cube" src="assets/img/logo.png" alt="" width="24" height="24">      DigitalPoint    </a>
+    <nav class="nav-links" aria-label="Principal">
+      <a href="#catalogo">Catálogo</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="inicio" class="hero">
+      <!-- El agua con tinta: solo en el inicio -->
+      <canvas id="ink" aria-hidden="true"></canvas>
+      <div class="ink-fallback" aria-hidden="true"></div>
+
+      <div class="hero-content" data-ink-avoid>
+        <h1 class="hero-title"><span class="mask"><span>DigitalPoint</span></span></h1>
+        <p class="hero-sub"><span class="mask"><span>Innova tu vida</span></span></p>
+      </div>
+
+      <div class="hero-bar" data-ink-avoid>
+        <p class="hero-cats">
+                      Computadoras                      <span aria-hidden="true">/</span>Tablets                      <span aria-hidden="true">/</span>Celulares                      <span aria-hidden="true">/</span>Accesorios                  </p>
+        <a class="hero-link" href="#catalogo">Ver catálogo <span aria-hidden="true">↓</span></a>
+      </div>
+    </section>
+
+    <!-- Transición: la laptop entra, se abre y se queda flotando en el agua -->
+    <section class="mb-section" data-laptop aria-labelledby="mb-titulo">
+      <div class="mb-stage" aria-hidden="true">
+        <div class="mb-float">
+          <div class="mb" data-laptop-body>
+            <div class="mb-shadow"></div>
+            <!-- Puntos invisibles en las esquinas: marcan por dónde pasa la laptop para revelar el texto -->
+            <div class="slab mb-base"><div class="f f-top"><div class="kb">
+      <div class="kb-row kb-fn">
+      <span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span>    </div>
+      <div class="kb-row kb-r1">
+      <span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1.5"></span>    </div>
+      <div class="kb-row kb-r2">
+      <span style="flex-grow:1.5"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span>    </div>
+      <div class="kb-row kb-r3">
+      <span style="flex-grow:1.8"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1.8"></span>    </div>
+      <div class="kb-row kb-r4">
+      <span style="flex-grow:2.35"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:2.35"></span>    </div>
+      <div class="kb-row kb-r5">
+      <span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1"></span><span style="flex-grow:1.25"></span><span style="flex-grow:5.1"></span><span style="flex-grow:1.25"></span><span style="flex-grow:1"></span><span style="flex-grow:3"></span>    </div>
+  </div>
+<div class="trackpad"></div>
+<div class="hinge-bar"></div>
+</div><div class="f f-bottom"><i class="foot foot-1"></i><i class="foot foot-2"></i><i class="foot foot-3"></i><i class="foot foot-4"></i></div><div class="f f-front"><i class="thumb"></i></div><div class="f f-back"></div><div class="f f-left"><i class="port port-mag"></i><i class="port port-c"></i><i class="port port-c"></i></div><div class="f f-right"><i class="port port-jack"></i></div><div class="f f-c f-c1"></div><div class="f f-c f-c2"></div><div class="f f-c f-c3"></div><div class="f f-c f-c4"></div><i class="mb-corner c-front-left" data-laptop-corner></i><i class="mb-corner c-front-right" data-laptop-corner></i><i class="mb-corner c-back-left" data-laptop-corner></i><i class="mb-corner c-back-right" data-laptop-corner></i></div>
+            <div class="mb-hinge-pos">
+              <div class="mb-hinge" data-laptop-lid>
+                <div class="slab mb-lid"><div class="f f-top"><svg class="lid-logo" viewBox="0 0 100 120" aria-hidden="true"><defs><linearGradient id="lid-logo-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6f9fb"/><stop offset="1" stop-color="#d3dce2"/></linearGradient></defs><path fill="url(#lid-logo-fill)" d="M66 3c-8 1-16 9-16 20 9 1 17-8 16-20z"/><path fill="url(#lid-logo-fill)" d="M50 33c-7 0-13-4-21-4C15 29 4 41 4 60c0 24 15 52 28 52 8 0 10-4 18-4s10 4 18 4c12 0 22-15 27-28-10-5-17-14-17-25 0-10 5-17 12-21-6-7-14-9-20-9-8 0-12 4-20 4z"/></svg></div><div class="f f-bottom"><div class="display"><i class="notch"></i><i class="glare"></i></div></div><div class="f f-front"></div><div class="f f-back"></div><div class="f f-left"></div><div class="f f-right"></div><div class="f f-c f-c1"></div><div class="f f-c f-c2"></div><div class="f f-c f-c3"></div><div class="f f-c f-c4"></div><i class="mb-corner c-lid-left" data-laptop-corner></i><i class="mb-corner c-lid-right" data-laptop-corner></i></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sin ancestros con transform u opacidad: así el texto se invierte sobre la tinta -->
+      <div class="mb-copy">
+        <div class="mb-words" data-laptop-words data-ink-avoid>
+          <p class="kicker">Computadoras</p>
+          <h2 id="mb-titulo">Ligera como el <em>agua</em>.</h2>
+          <p class="mb-text">Laptops delgadas, pantallas brillantes y la potencia que necesitas para crear, estudiar o trabajar desde donde quieras.</p>
+        </div>
+        <a class="btn btn-dark" href="#catalogo" data-goto-filter="computadoras" data-laptop-cta>
+          Ver computadoras <span class="btn-arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Catálogo: una sola tarjeta grande de cristal -->
+    <section id="catalogo" class="catalog" aria-labelledby="catalogo-titulo">
+      <div class="catalog-panel">
+        <header class="catalog-header">
+          <h2 id="catalogo-titulo" class="reveal-text"><span>Catálogo</span></h2>
+          <p class="catalog-meta">
+            <span data-count>09</span> productos<br>
+            Precios en MXN          </p>
+        </header>
+
+        <div class="catalog-layout">
+          <aside class="sidebar" aria-label="Filtros">
+            <p class="sidebar-label">Categorías</p>
+            <ul class="filter-list" role="list">
+              <li>
+                <button type="button" class="filter" data-filter="todos" aria-pressed="true">
+                  <span class="filter-name">Todos</span>
+                  <span class="filter-count">09</span>
+                </button>
+              </li>
+                              <li>
+                  <button type="button" class="filter" data-filter="computadoras" aria-pressed="false">
+                    <span class="filter-name">Computadoras</span>
+                    <span class="filter-count">04</span>
+                  </button>
+                </li>
+                              <li>
+                  <button type="button" class="filter" data-filter="tablets" aria-pressed="false">
+                    <span class="filter-name">Tablets</span>
+                    <span class="filter-count">01</span>
+                  </button>
+                </li>
+                              <li>
+                  <button type="button" class="filter" data-filter="celulares" aria-pressed="false">
+                    <span class="filter-name">Celulares</span>
+                    <span class="filter-count">03</span>
+                  </button>
+                </li>
+                              <li>
+                  <button type="button" class="filter" data-filter="accesorios" aria-pressed="false">
+                    <span class="filter-name">Accesorios</span>
+                    <span class="filter-count">01</span>
+                  </button>
+                </li>
+                          </ul>
+          </aside>
+
+          <div class="catalog-results">
+                          <div class="grid">
+                                  <article class="product" data-category="computadoras" data-href="producto-2.html" tabindex="-1">
+                    <a class="product-media" href="producto-2.html" tabindex="-1" aria-hidden="true">
+                                              <div class="product-placeholder" role="img" aria-label="Imagen de Dell XPS 14 próximamente"></div>
+                                                                </a>
+
+                    <div class="product-info">
+                      <p class="product-brand">Dell</p>
+                      <h3 class="product-name"><a href="producto-2.html">XPS 14</a></h3>
+                      <p class="product-specs">Intel Core Ultra 7 · 32 GB RAM · 1 TB SSD</p>
+                    </div>
+
+                    <div class="product-foot">
+                      <p class="price">
+                        <span class="price-now">$38,499</span>
+                                              </p>
+                      <a class="product-link" href="producto-2.html">
+                        Ver producto<span class="visually-hidden"> Dell XPS 14</span>
+                        <span class="btn-arrow" aria-hidden="true">→</span>
+                      </a>
+                    </div>
+
+                    <!-- Ventana al pasar el cursor: más información y galería -->
+                    <div class="window" data-window>
+                      <div class="window-bar">
+                        <span class="window-title">dell-xps-14.dp</span>
+                        <span class="window-controls" aria-hidden="true">
+                          <i class="wc wc-min"></i><i class="wc wc-max"></i><i class="wc wc-close"></i>
+                        </span>
+                      </div>
+                      <div class="window-body">
+                        <div class="window-gallery" data-gallery>
+                                                      <div class="slide is-active">
+                                                              <span class="slide-empty slide-empty-0"></span>
+                                                          </div>
+                                                      <div class="slide">
+                                                              <span class="slide-empty slide-empty-1"></span>
+                                                          </div>
+                                                      <div class="slide">
+                                                              <span class="slide-empty slide-empty-2"></span>
+                                                          </div>
+                                                                                <div class="dots" aria-hidden="true">
+                              <i class="is-active"></i><i class=""></i><i class=""></i>                            </div>
+                                                  </div>
+                        <div class="window-info">
+                          <p class="product-brand">Dell · Computadoras</p>
+                          <p class="window-name">XPS 14</p>
+                                                      <p class="window-desc">Diseño de aluminio con acabado premium y potencia para edición, programación y multitarea pesada.</p>
+                                                                                <ul class="window-features" role="list">
+                              <li>Pantalla 14.5&quot; 3.2K</li><li>Teclado retroiluminado</li><li>Wi-Fi 7</li>                            </ul>
+                                                    <div class="window-foot">
+                            <span class="price-now">$38,499</span>
+                            <a class="btn btn-dark" href="producto-2.html" tabindex="-1">
+                              Ver producto <span class="btn-arrow" aria-hidden="true">→</span>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                                  <article class="product" data-category="computadoras" data-href="producto-1.html" tabindex="-1">
+                    <a class="product-media" href="producto-1.html" tabindex="-1" aria-hidden="true">
+                                              <div class="product-placeholder" role="img" aria-label="Imagen de Apple MacBook Air 13&quot; M4 próximamente"></div>
+                                                                    <span class="tag">Nuevo</span>
+                                          </a>
+
+                    <div class="product-info">
+                      <p class="product-brand">Apple</p>
+                      <h3 class="product-name"><a href="producto-1.html">MacBook Air 13&quot; M4</a></h3>
+                      <p class="product-specs">Chip M4 · 16 GB RAM · 512 GB SSD</p>
+                    </div>
+
+                    <div class="product-foot">
+                      <p class="price">
+                        <span class="price-now">$24,999</span>
+                                              </p>
+                      <a class="product-link" href="producto-1.html">
+                        Ver producto<span class="visually-hidden"> Apple MacBook Air 13&quot; M4</span>
+                        <span class="btn-arrow" aria-hidden="true">→</span>
+                      </a>
+                    </div>
+
+                    <!-- Ventana al pasar el cursor: más información y galería -->
+                    <div class="window" data-window>
+                      <div class="window-bar">
+                        <span class="window-title">apple-macbook-air-13-m4.dp</span>
+                        <span class="window-controls" aria-hidden="true">
+                          <i class="wc wc-min"></i><i class="wc wc-max"></i><i class="wc wc-close"></i>
+                        </span>
+                      </div>
+                      <div class="window-body">
+                        <div class="window-gallery" data-gallery>
+                                                      <div class="slide is-active">
+                                                              <span class="slide-empty slide-empty-0"></span>
+                                                          </div>
+                                                      <div class="slide">
+                                                              <span class="slide-empty slide-empty-1"></span>
+                                                          </div>
+                                                      <div class="slide">
+                                                              <span class="slide-empty slide-empty-2"></span>
+                                                          </div>
+                                                                                <div class="dots" aria-hidden="true">
+                              <i class="is-active"></i><i class=""></i><i class=""></i>                            </div>
+                                                  </div>
+                        <div class="window-info">
+                          <p class="product-brand">Apple · Computadoras</p>
+                          <p class="window-name">MacBook Air 13&quot; M4</p>
+                                                      <p class="window-desc">Ultraligera y silenciosa, sin ventilador. Ideal para estudiar, trabajar y crear desde cualquier lugar.</p>
+                                                                                <ul class="window-features" role="list">
+                              <li>Pantalla Liquid Retina de 13.6&quot;</li><li>Hasta 18 h de batería</li><li>Peso de 1.24 kg</li>                            </ul>
+                                                    <div class="window-foot">
+                            <span class="price-now">$24,999</span>
+                            <a class="btn btn-dark" href="producto-1.html" tabindex="-1">
+                              Ver producto <span class="btn-arrow" aria-hidden="true">→</span>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                                  <article class="product" data-category="computadoras" data-href="producto-3.html" tabindex="-1">
+                    <a class="product-media" href="producto-3.html" tabindex="-1" aria-hidden="true">
+                                              <div class="product-placeholder" role="img" aria-label="Imagen de Lenovo ThinkPad X1 Carbon próximamente"></div>
+                                                                </a>
+
+                    <div class="product-info">
+                      <p class="product-brand">Lenovo</p>
+                      <h3 class="product-name"><a href="producto-3.html">ThinkPad X1 Carbon</a></h3>
+                      <p class="product-specs">Intel Core Ultra 7 · 32 GB RAM · 1 TB SSD</p>
+                    </div>
+
+                    <div class="product-foot">
+                      <p class="price">
+                        <span class="price-now">$35,999</span>
+                                                  <span class="price-old"><s>$39,999</s> −10%</span>
+                                              </p>
+                      <a class="product-link" href="producto-3.html">
+                        Ver producto<span class="visually-hidden"> Lenovo ThinkPad X1 Carbon</span>
+                        <span class="btn-arrow" aria-hidden="true">→</span>
+                      </a>
+                    </div>
+
+                    <!-- Ventana al pasar el cursor: más información y galería -->
+                    <div class="window" data-window>
+                      <div class="window-bar">
+                        <span class="window-title">lenovo-thinkpad-x1-carbon.dp</span>
+                        <span class="window-controls" aria-hidden="true">
+                          <i class="wc wc-min"></i><i class="wc wc-max"></i><i class="wc wc-close"></i>
+                        </span>
+                      </div>
+                      <div class="window-body">
+                        <div class="window-gallery" data-gallery>
+                                                      <div class="slide is-active">
+                                                              <span class="slide-empty slide-empty-0"></span>
+                                                          </div>
+                                                      <div class="slide">
+                                                              <span class="slide-empty slide-empty-1"></span>
+                                                          </div>
+                                                      <div class="slide">
+                                                              <span class="slide-empty slide-empty-2"></span>
+                                                          </div>
+                                                                                <div class="dots" aria-hidden="true">
+                              <i class="is-active"></i><i class=""></i><i class=""></i>                            </div>
+                                                  </div>
+                        <div class="window-info">
+                          <p class="product-brand">Lenovo · Computadoras</p>
+                          <p class="window-name">ThinkPad X1 Carbon</p>
+                                                      <p class="window-desc">La laptop empresarial por excelencia: resistente, ligera y con uno de los mejores teclados del mercado.</p>
+                                                                                <ul class="window-features" role="list">
+                              <li>Fibra de carbono, 1.1 kg</li><li>Lector de huella</li><li>Certificación MIL-STD-810H</li>                            </ul>
+                                                    <div class="window-foot">
+                            <span class="price-now">$35,999</span>
+                            <a class="btn btn-dark" href="producto-3.html" tabindex="-1">
+                              Ver producto <span class="btn-arrow" aria-hidden="true">→</span>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                                  <article class="product" data-category="computadoras" data-href="producto-4.html" tabindex="-1">
+                    <a class="product-media" href="producto-4.html" tabindex="-1" aria-hidden="true">
+                                              <div class="product-placeholder" role="img" aria-label="Imagen de ASUS ROG Zephyrus G14 próximamente"></div>
+                                                                </a>
+
+                    <div class="product-info">
+                      <p class="product-brand">ASUS</p>
+                      <h3 class="product-name"><a href="producto-4.html">ROG Zephyrus G14</a></h3>
+                      <p class="product-specs">Ryzen AI 9 · RTX 5070 Ti · OLED 3K 120 Hz</p>
+                    </div>
+
+                    <div class="product-foot">
+                      <p class="price">
+                        <span class="price-now">$42,999</span>
+                                              </p>
+                      <a class="product-link" href="producto-4.html">
+                        Ver producto<span class="visually-hidden"> ASUS ROG Zephyrus G14</span>
+                        <span class="btn-arrow" aria-hidden="true">→</span>
+                      </a>
+                    </div>
+
+                    <!-- Ventana al pasar el cursor: más información y galería -->
+                    <div class="window" data-window>
+                      <div class="window-bar">
+                        <span class="window-title">asus-rog-zephyrus-g14.dp</span>
+                        <span class="window-controls" aria-hidden="true">
+                          <i class="wc wc-min"></i><i class="wc wc-max"></i><i class="wc wc-close"></i>
+                        </span>
+                      </div>
+                      <div class="window-body">
+                        <div class="window-gallery" data-gallery>
+                                                      <div class="slide is-active">
+                                                              <span class="slide-empty slide-empty-0"></span>
+                                                          </div>
+                                                      <div class="slide">
+                                                              <span class="slide-empty slide-empty-1"></span>
+                                                          </div>
+                                                      <div class="slide">
+                                                              <span class="slide-empty slide-empty-2"></span>
+                                                          </div>
+                                                                                <div class="dots" aria-hidden="true">
+                              <i class="is-active"></i><i class=""></i><i class=""></i>                            </div>
+                                                  </div>
+                        <div class="window-info">
+                          <p class="product-brand">ASUS · Computadoras</p>
+                          <p class="window-name">ROG Zephyrus G14</p>
+                                                      <p class="window-desc">Potencia gamer en un cuerpo compacto. Perfecta para jugar, renderizar y transmitir.</p>
+                                                                                <ul class="window-features" role="list">
+                              <li>Pantalla OLED 3K a 120 Hz</li><li>32 GB RAM</li><li>Chasis de aluminio CNC</li>                            </ul>
+                                                    <div class="window-foot">
+                            <span class="price-now">$42,999</span>
+                            <a class="btn btn-dark" href="producto-4.html" tabindex="-1">
+                              Ver producto <span class="btn-arrow" aria-hidden="true">→</span>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                                  <article class="product" data-category="celulares" data-href="producto-5.html" tabindex="-1">
+                    <a class="product-media" href="producto-5.html" tabindex="-1" aria-hidden="true">
+                                              <div class="product-placeholder" role="img" aria-label="Imagen de Apple iPhone 17 Pro próximamente"></div>
+                                                                    <span class="tag">Más vendido</span>
+                                          </a>
+
+                    <div class="product-info">
+                      <p class="product-brand">Apple</p>
+                      <h3 class="product-name"><a href="producto-5.html">iPhone 17 Pro</a></h3>
+                      <p class="product-specs">256 GB · Triple cámara 48 MP · A19 Pro</p>
+                    </div>
+
+                    <div class="product-foot">
+                      <p class="price">
+                        <span class="price-now">$27,999</span>
+                                              </p>
+                      <a class="product-link" href="producto-5.html">
+                        Ver producto<span class="visually-hidden"> Apple iPhone 17 Pro</span>
+                        <span class="btn-arrow" aria-hidden="true">→</span>
+                      </a>
+                    </div>
+
+                    <!-- Ventana al pasar el cursor: más información y galería -->
+                    <div class="window" data-window>
+                      <div class="window-bar">
+                        <span class="window-title">apple-iphone-17-pro.dp</span>
+                        <span class="window-controls" aria-hidden="true">
+                          <i class="wc wc-min"></i><i class="wc wc-max"></i><i class="wc wc-close"></i>
+                        </span>
+                      </div>
+                      <div class="window-body">
+                        <div class="window-gallery" data-gallery>
+                                                      <div class="slide is-active">
+                                                              <span class="slide-empty slide-empty-0"></span>
+                                                          </div>
+                                                      <div class="slide">
+                                                              <span class="slide-empty slide-empty-1"></span>
+                                                          </div>
+                                                      <div class="slide">
+                                                              <span class="slide-empty slide-empty-2"></span>
+                                                          </div>
+                                                                                <div class="dots" aria-hidden="true">
+                              <i class="is-active"></i><i class=""></i><i class=""></i>                            </div>
+                                                  </div>
+                        <div class="window-info">
+                          <p class="product-brand">Apple · Celulares</p>
+                          <p class="window-name">iPhone 17 Pro</p>
+                                                      <p class="window-desc">Fotografía profesional, video en alta calidad y el rendimiento más rápido en un iPhone.</p>
+                                                                                <ul class="window-features" role="list">
+                              <li>Pantalla ProMotion 6.3&quot;</li><li>Zoom óptico 8x</li><li>USB-C de alta velocidad</li>                            </ul>
+                                                    <div class="window-foot">
+                            <span class="price-now">$27,999</span>
+                            <a class="btn btn-dark" href="producto-5.html" tabindex="-1">
+                              Ver producto <span class="btn-arrow" aria-hidden="true">→</span>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                                  <article class="product" data-category="celulares" data-href="producto-6.html" tabindex="-1">
+                    <a class="product-media" href="producto-6.html" tabindex="-1" aria-hidden="true">
+                                              <div class="product-placeholder" role="img" aria-label="Imagen de Samsung Galaxy S25 Ultra próximamente"></div>
+                                                                </a>
+
+                    <div class="product-info">
+                      <p class="product-brand">Samsung</p>
+                      <h3 class="product-name"><a href="producto-6.html">Galaxy S25 Ultra</a></h3>
+                      <p class="product-specs">512 GB · S Pen integrado · Cámara 200 MP</p>
+                    </div>
+
+                    <div class="product-foot">
+                      <p class="price">
+                        <span class="price-now">$29,499</span>
+                                                  <span class="price-old"><s>$32,999</s> −11%</span>
+                                              </p>
+                      <a class="product-link" href="producto-6.html">
+                        Ver producto<span class="visually-hidden"> Samsung Galaxy S25 Ultra</span>
+                        <span class="btn-arrow" aria-hidden="true">→</span>
+                      </a>
+                    </div>
+
+                    <!-- Ventana al pasar el cursor: más información y galería -->
+                    <div class="window" data-window>
+                      <div class="window-bar">
+                        <span class="window-title">samsung-galaxy-s25-ultra.dp</span>
+                        <span class="window-controls" aria-hidden="true">
+                          <i class="wc wc-min"></i><i class="wc wc-max"></i><i class="wc wc-close"></i>
+                        </span>
+                      </div>
+                      <div class="window-body">
+                        <div class="window-gallery" data-gallery>
+                                                      <div class="slide is-active">
+                                                              <span class="slide-empty slide-empty-0"></span>
+                                                          </div>
+                                                      <div class="slide">
+                                                              <span class="slide-empty slide-empty-1"></span>
+                                                          </div>
+                                                      <div class="slide">
+                                                              <span class="slide-empty slide-empty-2"></span>
+                                                          </div>
+                                                                                <div class="dots" aria-hidden="true">
+                              <i class="is-active"></i><i class=""></i><i class=""></i>                            </div>
+                                                  </div>
+                        <div class="window-info">
+                          <p class="product-brand">Samsung · Celulares</p>
+                          <p class="window-name">Galaxy S25 Ultra</p>
+                                                      <p class="window-desc">El Android más completo: S Pen integrado, pantalla enorme y una cámara con zoom de gran alcance.</p>
+                                                                                <ul class="window-features" role="list">
+                              <li>Pantalla 6.9&quot; QHD+</li><li>Galaxy AI</li><li>Batería de 5000 mAh</li>                            </ul>
+                                                    <div class="window-foot">
+                            <span class="price-now">$29,499</span>
+                            <a class="btn btn-dark" href="producto-6.html" tabindex="-1">
+                              Ver producto <span class="btn-arrow" aria-hidden="true">→</span>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                                  <article class="product" data-category="celulares" data-href="producto-7.html" tabindex="-1">
+                    <a class="product-media" href="producto-7.html" tabindex="-1" aria-hidden="true">
+                                              <div class="product-placeholder" role="img" aria-label="Imagen de Google Pixel 10 Pro próximamente"></div>
+                                                                </a>
+
+                    <div class="product-info">
+                      <p class="product-brand">Google</p>
+                      <h3 class="product-name"><a href="producto-7.html">Pixel 10 Pro</a></h3>
+                      <p class="product-specs">256 GB · Tensor G5 · 7 años de actualizaciones</p>
+                    </div>
+
+                    <div class="product-foot">
+                      <p class="price">
+                        <span class="price-now">$21,999</span>
+                                              </p>
+                      <a class="product-link" href="producto-7.html">
+                        Ver producto<span class="visually-hidden"> Google Pixel 10 Pro</span>
+                        <span class="btn-arrow" aria-hidden="true">→</span>
+                      </a>
+                    </div>
+
+                    <!-- Ventana al pasar el cursor: más información y galería -->
+                    <div class="window" data-window>
+                      <div class="window-bar">
+                        <span class="window-title">google-pixel-10-pro.dp</span>
+                        <span class="window-controls" aria-hidden="true">
+                          <i class="wc wc-min"></i><i class="wc wc-max"></i><i class="wc wc-close"></i>
+                        </span>
+                      </div>
+                      <div class="window-body">
+                        <div class="window-gallery" data-gallery>
+                                                      <div class="slide is-active">
+                                                              <span class="slide-empty slide-empty-0"></span>
+                                                          </div>
+                                                      <div class="slide">
+                                                              <span class="slide-empty slide-empty-1"></span>
+                                                          </div>
+                                                      <div class="slide">
+                                                              <span class="slide-empty slide-empty-2"></span>
+                                                          </div>
+                                                                                <div class="dots" aria-hidden="true">
+                              <i class="is-active"></i><i class=""></i><i class=""></i>                            </div>
+                                                  </div>
+                        <div class="window-info">
+                          <p class="product-brand">Google · Celulares</p>
+                          <p class="window-name">Pixel 10 Pro</p>
+                                                      <p class="window-desc">Android puro con las mejores funciones de IA de Google y una cámara que resuelve cualquier escena.</p>
+                                                                                <ul class="window-features" role="list">
+                              <li>Pantalla 6.3&quot; LTPO</li><li>Edición de fotos con IA</li><li>Carga inalámbrica</li>                            </ul>
+                                                    <div class="window-foot">
+                            <span class="price-now">$21,999</span>
+                            <a class="btn btn-dark" href="producto-7.html" tabindex="-1">
+                              Ver producto <span class="btn-arrow" aria-hidden="true">→</span>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                                  <article class="product" data-category="tablets" data-href="producto-8.html" tabindex="-1">
+                    <a class="product-media" href="producto-8.html" tabindex="-1" aria-hidden="true">
+                                              <div class="product-placeholder" role="img" aria-label="Imagen de Apple iPad Air 11&quot; M3 próximamente"></div>
+                                                                </a>
+
+                    <div class="product-info">
+                      <p class="product-brand">Apple</p>
+                      <h3 class="product-name"><a href="producto-8.html">iPad Air 11&quot; M3</a></h3>
+                      <p class="product-specs">128 GB · Wi‑Fi · Pantalla Liquid Retina</p>
+                    </div>
+
+                    <div class="product-foot">
+                      <p class="price">
+                        <span class="price-now">$13,999</span>
+                                              </p>
+                      <a class="product-link" href="producto-8.html">
+                        Ver producto<span class="visually-hidden"> Apple iPad Air 11&quot; M3</span>
+                        <span class="btn-arrow" aria-hidden="true">→</span>
+                      </a>
+                    </div>
+
+                    <!-- Ventana al pasar el cursor: más información y galería -->
+                    <div class="window" data-window>
+                      <div class="window-bar">
+                        <span class="window-title">apple-ipad-air-11-m3.dp</span>
+                        <span class="window-controls" aria-hidden="true">
+                          <i class="wc wc-min"></i><i class="wc wc-max"></i><i class="wc wc-close"></i>
+                        </span>
+                      </div>
+                      <div class="window-body">
+                        <div class="window-gallery" data-gallery>
+                                                      <div class="slide is-active">
+                                                              <span class="slide-empty slide-empty-0"></span>
+                                                          </div>
+                                                      <div class="slide">
+                                                              <span class="slide-empty slide-empty-1"></span>
+                                                          </div>
+                                                      <div class="slide">
+                                                              <span class="slide-empty slide-empty-2"></span>
+                                                          </div>
+                                                                                <div class="dots" aria-hidden="true">
+                              <i class="is-active"></i><i class=""></i><i class=""></i>                            </div>
+                                                  </div>
+                        <div class="window-info">
+                          <p class="product-brand">Apple · Tablets</p>
+                          <p class="window-name">iPad Air 11&quot; M3</p>
+                                                      <p class="window-desc">Ligera y potente para tomar notas, dibujar y ver contenido. Compatible con Apple Pencil Pro.</p>
+                                                                                <ul class="window-features" role="list">
+                              <li>Chip M3</li><li>Compatible con Magic Keyboard</li><li>Touch ID</li>                            </ul>
+                                                    <div class="window-foot">
+                            <span class="price-now">$13,999</span>
+                            <a class="btn btn-dark" href="producto-8.html" tabindex="-1">
+                              Ver producto <span class="btn-arrow" aria-hidden="true">→</span>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                                  <article class="product" data-category="accesorios" data-href="producto-9.html" tabindex="-1">
+                    <a class="product-media" href="producto-9.html" tabindex="-1" aria-hidden="true">
+                                              <div class="product-placeholder" role="img" aria-label="Imagen de Sony WH-1000XM6 próximamente"></div>
+                                                                    <span class="tag">Nuevo</span>
+                                          </a>
+
+                    <div class="product-info">
+                      <p class="product-brand">Sony</p>
+                      <h3 class="product-name"><a href="producto-9.html">WH-1000XM6</a></h3>
+                      <p class="product-specs">Cancelación de ruido · Hasta 30 h de batería</p>
+                    </div>
+
+                    <div class="product-foot">
+                      <p class="price">
+                        <span class="price-now">$8,499</span>
+                                              </p>
+                      <a class="product-link" href="producto-9.html">
+                        Ver producto<span class="visually-hidden"> Sony WH-1000XM6</span>
+                        <span class="btn-arrow" aria-hidden="true">→</span>
+                      </a>
+                    </div>
+
+                    <!-- Ventana al pasar el cursor: más información y galería -->
+                    <div class="window" data-window>
+                      <div class="window-bar">
+                        <span class="window-title">sony-wh-1000xm6.dp</span>
+                        <span class="window-controls" aria-hidden="true">
+                          <i class="wc wc-min"></i><i class="wc wc-max"></i><i class="wc wc-close"></i>
+                        </span>
+                      </div>
+                      <div class="window-body">
+                        <div class="window-gallery" data-gallery>
+                                                      <div class="slide is-active">
+                                                              <span class="slide-empty slide-empty-0"></span>
+                                                          </div>
+                                                      <div class="slide">
+                                                              <span class="slide-empty slide-empty-1"></span>
+                                                          </div>
+                                                      <div class="slide">
+                                                              <span class="slide-empty slide-empty-2"></span>
+                                                          </div>
+                                                                                <div class="dots" aria-hidden="true">
+                              <i class="is-active"></i><i class=""></i><i class=""></i>                            </div>
+                                                  </div>
+                        <div class="window-info">
+                          <p class="product-brand">Sony · Accesorios</p>
+                          <p class="window-name">WH-1000XM6</p>
+                                                      <p class="window-desc">Silencio total para concentrarte o disfrutar tu música con sonido de alta resolución.</p>
+                                                                                <ul class="window-features" role="list">
+                              <li>Cancelación de ruido adaptativa</li><li>Carga rápida: 3 min = 3 h</li><li>Multipunto Bluetooth</li>                            </ul>
+                                                    <div class="window-foot">
+                            <span class="price-now">$8,499</span>
+                            <a class="btn btn-dark" href="producto-9.html" tabindex="-1">
+                              Ver producto <span class="btn-arrow" aria-hidden="true">→</span>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                              </div>
+              <p class="empty" data-empty hidden>No hay productos en esta categoría por ahora.</p>
+                      </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="contacto" class="footer">
+    <p class="footer-brand"><img class="logo-cube" src="assets/img/logo.png" alt="" width="24" height="24">DigitalPoint <em>Innova tu vida</em></p>
+    <ul class="contact-list" role="list">
+              <li><a href="mailto:ventas@tudominio.com">ventas@tudominio.com</a></li>
+                    <li><a href="tel:+520000000000">+52 000 000 0000</a></li>
+                    <li>Tu ciudad, tu país</li>
+          </ul>
+    <p class="footer-legal">© 2026 DigitalPoint</p>
+  </footer>
+
+  <script src="assets/js/ink.js?v=19" defer></script>
+  <script src="assets/js/main.js?v=19" defer></script>
+</body>
+</html>

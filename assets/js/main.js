@@ -183,12 +183,12 @@
       el.style.webkitMaskImage = mask;
       el.style.maskImage = mask;
     };
+    // Misma condición que usa el CSS para el texto con desvanecido simple.
+    const simpleReveal = window.matchMedia('(hover: none), (pointer: coarse), (max-width: 760px)');
     const revealBehind = (trailX, done) => {
-      // Celular: el texto entra con una transición de CSS en cuanto arranca.
-      if (touchDevice) {
-        if (done || trailX !== -Infinity) section.classList.add('is-revealed');
-        return;
-      }
+      // Al terminar (o con desvanecido simple) el texto siempre queda visible.
+      if (done || (simpleReveal.matches && trailX !== -Infinity)) section.classList.add('is-revealed');
+      if (simpleReveal.matches) return;
       revealX = Math.max(revealX, trailX);
       [words, cta].forEach((el) => {
         const r = el.getBoundingClientRect();
@@ -239,7 +239,7 @@
         calm = 1 - easeInOut(clamp01((now - doneAt) / SETTLE_MS));
       }
       render(p, (now - startedAt) / 1000, calm);
-      revealBehind(touchDevice ? 0 : trailingX(), p > 0.7);
+      revealBehind(simpleReveal.matches ? 0 : trailingX(), p > 0.7);
       if (calm <= 0) {
         finish();
         return;

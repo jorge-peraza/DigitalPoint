@@ -4,6 +4,7 @@
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const canHover = window.matchMedia('(hover: hover) and (pointer: fine)');
+  const touchDevice = !canHover.matches;
   const clamp01 = (v) => Math.min(1, Math.max(0, v));
   const lerp = (a, b, t) => a + (b - a) * t;
   const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
@@ -183,6 +184,11 @@
       el.style.maskImage = mask;
     };
     const revealBehind = (trailX, done) => {
+      // Celular: el texto entra con una transición de CSS en cuanto arranca.
+      if (touchDevice) {
+        if (done || trailX !== -Infinity) section.classList.add('is-revealed');
+        return;
+      }
       revealX = Math.max(revealX, trailX);
       [words, cta].forEach((el) => {
         const r = el.getBoundingClientRect();
@@ -233,7 +239,7 @@
         calm = 1 - easeInOut(clamp01((now - doneAt) / SETTLE_MS));
       }
       render(p, (now - startedAt) / 1000, calm);
-      revealBehind(trailingX(), p > 0.7);
+      revealBehind(touchDevice ? 0 : trailingX(), p > 0.7);
       if (calm <= 0) {
         finish();
         return;
@@ -303,9 +309,10 @@
         }
         if (startedAt) play();                 // la termina si quedó a medias
         else if (ratio >= 0.5) {
-          // Primera vez: fija la página y arranca. Si solo se está pasando de
-          // largo por un enlace del menú, se anima sin detener el desplazamiento.
-          if (smoothScroll.active) play();
+          // Primera vez: en computadora la página se acomoda en la laptop y
+          // arranca. En celular nunca se mueve el scroll por el usuario (se
+          // sentía trabado): solo arranca la animación.
+          if (smoothScroll.active || touchDevice) play();
           else pinAndPlay();
         }
       }, { threshold: [0, 0.3, 0.5, 0.55, 0.8] }).observe(section);

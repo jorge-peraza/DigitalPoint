@@ -153,6 +153,7 @@ em {
   display: block;
 }
 
+
 /* --------------------------------------------------------------------------
    Navegación
    -------------------------------------------------------------------------- */
@@ -1936,5 +1937,64 @@ em {
   }
   .pd {
     padding-top: 16px;
+  }
+}
+
+/* ==========================================================================
+   Celular: va al final para ganar a las reglas generales de arriba
+   ========================================================================== */
+
+/* Celular y tableta táctil: sin tinta (ni se descarga el código), hero limpio y rápido.
+   Sin tinta tampoco hace falta invertir el texto (mix-blend), que cuesta al pintar. */
+@media (hover: none), (pointer: coarse), (max-width: 760px) {
+  #ink,
+  .no-webgl .ink-fallback {
+    display: none;
+  }
+  .hero-content,
+  .hero-bar,
+  .mb-words {
+    mix-blend-mode: normal;
+    color: var(--ink);
+  }
+  .mb-words .kicker {
+    color: var(--gray-500);
+  }
+  .mb-text {
+    color: rgba(12, 12, 13, 0.72);
+  }
+  /* El texto de la laptop entra con un desvanecido simple (sin máscara que
+     se recalcula en cada cuadro: en celular se veía trabado). */
+  .js .mb-words,
+  .js .mb-copy .btn {
+    -webkit-mask-image: none;
+    mask-image: none;
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 600ms ease, transform 800ms var(--ease-out);
+  }
+  .js .mb-section.is-revealed .mb-words,
+  .js .mb-section.is-revealed .mb-copy .btn {
+    opacity: 1;
+    transform: none;
+  }
+  .js .mb-section.is-revealed .mb-copy .btn {
+    transition-delay: 150ms;
+  }
+}
+
+@media (max-width: 760px) {
+  .hero {
+    height: auto;
+    min-height: 0;
+    aspect-ratio: auto;
+    padding: 0;
+  }
+  .hero-content {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    max-width: none;
+    padding: 34vh var(--inset) 96px;
   }
 }

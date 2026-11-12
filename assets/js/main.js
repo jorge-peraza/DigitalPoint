@@ -145,14 +145,15 @@
       });
     };
 
-    const render = (p, floatT) => {
+    const render = (p, floatT, calm = 1) => {
       // 0 → 0.55 entra girando · 0.42 → 0.86 se abre
       const travel = spring(p / 0.55, 5.5, 3.2);   // traslado: sin rebote
       const spin = spring(p / 0.55, 6, 4.6);       // giro: se asienta suave (rebote apenas perceptible)
       const open = spring((p - 0.42) / 0.44, 6.2, 4.8) * POSE.lidOpen;
 
       // Flotar: sube, baja y se mece despacio (crece a medida que llega).
-      const settle = clamp01(spin);
+      // `calm` baja a 0 al terminar: la laptop se queda quieta y deja de gastar.
+      const settle = clamp01(spin) * calm;
       const bobY = Math.sin(floatT * 0.8) * 12 * settle;
       const bobZ = Math.sin(floatT * 0.55 + 1) * 1.1 * settle;
       const bobX = Math.sin(floatT * 0.4) * 1.2 * settle;
@@ -205,8 +206,20 @@
     let lastTime = 0;
     let rafId = 0;
     let visible = false;
-    const MAX_BOOST = 7;   // hasta 8× más rápido mientras se hace scroll
+    let doneAt = 0;
+    let finished = false;
+    const MAX_BOOST = 7;    // hasta 8× más rápido mientras se hace scroll
     const BOOST_FADE = 450; // ms para que el impulso se disipe
+    const SETTLE_MS = 1800; // al terminar, el balanceo se apaga en este tiempo
+
+    /** Pose final, inmóvil: ya no hace falta animar nada. */
+    const finish = () => {
+      cancelAnimationFrame(rafId);
+      progress = DURATION;
+      finished = true;
+      render(1, 0, 0);
+      revealBehind(Infinity, true);
+    };
 
     const loop = (now) => {
       const dt = Math.min(64, now - lastTime);
@@ -214,12 +227,22 @@
       progress = Math.min(DURATION, progress + dt * (1 + boost));
       boost *= Math.exp(-dt / BOOST_FADE);
       const p = progress / DURATION;
-      render(p, (now - startedAt) / 1000);
+      let calm = 1;
+      if (progress >= DURATION) {
+        if (!doneAt) doneAt = now;
+        calm = 1 - easeInOut(clamp01((now - doneAt) / SETTLE_MS));
+      }
+      render(p, (now - startedAt) / 1000, calm);
       revealBehind(trailingX(), p > 0.7);
+      if (calm <= 0) {
+        finish();
+        return;
+      }
       if (visible) rafId = requestAnimationFrame(loop);
     };
 
     const play = () => {
+      if (finished) return;
       cancelAnimationFrame(rafId);
       if (!startedAt) startedAt = performance.now();
       lastTime = performance.now();
@@ -240,7 +263,9 @@
     };
 
     const hurry = (amount) => {
-      if (reduceMotion.matches || !visible || progress >= DURATION) return;
+      // Solo acelera una animación que ya empezó (o que se está acomodando):
+      // hacer scroll mientras la sección apenas asoma no la dispara antes.
+      if (reduceMotion.matches || !visible || finished || (!startedAt && !pinning)) return;
       start(); // si se estaba acomodando, arranca ya
       boost = Math.min(MAX_BOOST, boost + amount);
     };
@@ -256,8 +281,7 @@
     window.addEventListener('keydown', (e) => { if (SCROLL_KEYS.has(e.key)) hurry(3); });
 
     if (reduceMotion.matches) {
-      render(1, 0);
-      revealBehind(Infinity, true);
+      finish();
     } else {
       render(0, 0);
       revealBehind(-Infinity, false);
@@ -273,25 +297,20 @@
 
         if (!visible) {
           cancelAnimationFrame(rafId);
-          // Si ya empezó y el usuario se fue, al volver la encuentra terminada.
-          if (startedAt && progress < DURATION) {
-            progress = DURATION;
-            render(1, (performance.now() - startedAt) / 1000);
-            revealBehind(Infinity, true);
-          }
+          // Si ya empezó y el usuario se fue, al volver la encuentra terminada y quieta.
+          if (startedAt && !finished) finish();
           return;
         }
-        if (startedAt) play();                 // ya se vio: solo sigue flotando
-        else if (ratio >= 0.3) {
+        if (startedAt) play();                 // la termina si quedó a medias
+        else if (ratio >= 0.5) {
           // Primera vez: fija la página y arranca. Si solo se está pasando de
           // largo por un enlace del menú, se anima sin detener el desplazamiento.
           if (smoothScroll.active) play();
           else pinAndPlay();
         }
-      }, { threshold: [0, 0.3, 0.55, 0.8] }).observe(section);
+      }, { threshold: [0, 0.3, 0.5, 0.55, 0.8] }).observe(section);
     } else {
-      render(1, 0);
-      revealBehind(Infinity, true);
+      finish();
     }
   }
 
@@ -470,6 +489,13 @@
   /* ------------------------------------------------------------------ */
   /* Producto: toda la tarjeta abre su página; miniaturas de la galería  */
   /* ------------------------------------------------------------------ */
+
+  // Al regresar con "atrás" el navegador restaura la página tal cual: se quita
+  // el foco que dejó el clic para que la ventana del producto no quede abierta.
+  window.addEventListener('pageshow', () => {
+    const active = document.activeElement;
+    if (active && active.closest && active.closest('.product')) active.blur();
+  });
 
   document.addEventListener('click', (e) => {
     const card = e.target.closest('.product[data-href]');

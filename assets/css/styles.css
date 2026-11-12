@@ -1137,13 +1137,21 @@ em {
     visibility 0s linear 400ms;
 }
 
-.product:focus-within {
+.product:has(:focus-visible) {
   z-index: 3;
 }
 
+/* En pantallas táctiles no hay "hover": la tarjeta lleva directo a su página. */
+@media (hover: none) {
+  .window {
+    display: none;
+  }
+}
+
 /* Apertura: arranca en el mismo instante del hover (sin pausa) y se asienta suave.
-   La curva ease-out hace que el cambio se note desde el primer cuadro. */
-.product:focus-within .window {
+   La curva ease-out hace que el cambio se note desde el primer cuadro.
+   Con teclado se abre solo con foco visible (no queda abierta tras un clic). */
+.product:has(:focus-visible) .window {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
@@ -1535,9 +1543,22 @@ em {
   .filter[aria-pressed="true"] .filter-name {
     transform: none;
   }
+  /* Celular: texto arriba y la laptop en su propio espacio debajo,
+     así nunca se enciman. */
   .mb-section {
-    align-items: flex-start;
-    padding-top: 48px;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    gap: 8px;
+    height: auto;
+    min-height: 100vh;
+    padding-top: 72px;
+    padding-bottom: 32px;
+  }
+  @supports (height: 100svh) {
+    .mb-section {
+      min-height: 100svh;
+    }
   }
   .mb-copy {
     width: 100%;
@@ -1546,15 +1567,22 @@ em {
   .mb-text {
     margin-bottom: 20px;
   }
+  .mb-stage {
+    order: 2;
+    position: relative;
+    inset: auto;
+    flex: none;
+    height: calc(var(--mb-w) * 1.22);
+    margin: 0 calc(var(--inset) * -1);
+    perspective-origin: 50% 50%;
+    --mb-w: min(64vw, 420px);
+  }
   .mb-float {
-    left: 45%;
-    top: 68%;
+    left: 50%;
+    top: 66%;
   }
   .mb {
-    --w: min(78vw, 520px);
-  }
-  .mb-stage {
-    perspective-origin: 50% 55%;
+    --w: var(--mb-w);
   }
 }
 
@@ -1615,7 +1643,7 @@ em {
   }
   .window,
   .product:hover .window,
-  .product:focus-within .window {
+  .product:has(:focus-visible) .window {
     transform: none;
   }
   .btn:active {
@@ -1858,7 +1886,55 @@ em {
   .pd-gallery {
     position: static;
   }
+  /* El botón de consulta acompaña al usuario mientras lee el producto */
   .pd-cta {
+    position: sticky;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    z-index: 5;
     justify-self: stretch;
+    box-shadow: 0 12px 30px -10px rgba(12, 12, 13, 0.45);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Celular: más espacio para los productos y menos trabajo para el teléfono
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 640px) {
+  .catalog {
+    padding: 28px 8px 16px;
+  }
+  .catalog-panel {
+    padding: 18px 14px 24px;
+    border-radius: 22px;
+    /* Sin desenfoque: debajo del hero el fondo es liso y así el scroll va fluido */
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: rgba(255, 255, 255, 0.82);
+  }
+  .catalog-header {
+    align-items: center;
+    padding-bottom: 14px;
+  }
+  .catalog-layout {
+    padding-top: 16px;
+  }
+  .grid {
+    gap: 26px 12px;
+  }
+  .product-info {
+    padding-top: 10px;
+  }
+  .product-name {
+    font-size: 14px;
+  }
+  .product-specs {
+    font-size: 12px;
+  }
+  .product-foot {
+    padding-top: 8px;
+  }
+  .pd {
+    padding-top: 16px;
   }
 }

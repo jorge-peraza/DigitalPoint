@@ -12,8 +12,11 @@
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="assets/css/styles.css?v=19">
+  <!-- Fuentes sin bloquear el primer pintado (el texto aparece al instante) -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&display=swap"></noscript>
+  <link rel="stylesheet" href="assets/css/styles.css?v=20">
 </head>
 <body class="page-product">
   <header class="nav" data-nav>
@@ -71,6 +74,6 @@
     <p class="footer-legal">© 2026 DigitalPoint</p>
   </footer>
 
-  <script src="assets/js/main.js?v=19" defer></script>
+  <script src="assets/js/main.js?v=20" defer></script>
 </body>
 </html>

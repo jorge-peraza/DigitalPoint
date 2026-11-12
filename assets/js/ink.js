@@ -2,10 +2,10 @@
  * DigitalPoint — tinta en agua (solo en el hero).
  *
  * Simulación de fluidos en la GPU (stable fluids + advección MacCormack para
- * que la tinta se mantenga nítida). La tinta entra desde los bordes del
- * recuadro, es más pesada que el agua y se enrosca en remolinos lentos al
- * estilo de "La noche estrellada". El puntero la mueve como un palillo:
- * una perturbación pequeña y local.
+ * que la tinta se mantenga nítida). La tinta cae desde arriba en gotas, como
+ * tinta vertida en un vaso de agua: una cabeza densa que se enrosca y un
+ * rastro de hilos finos. En escritorio el puntero la mueve como un palillo;
+ * en celular solo cae.
  *
  * Todas las velocidades de `config` están en "alturas del recuadro por segundo".
  */
@@ -18,19 +18,25 @@
   const root = document.documentElement;
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const small = Math.min(window.innerWidth, window.innerHeight) < 700;
+  // En celular (pantalla táctil) la tinta solo cae: el dedo no la mueve.
+  const touch = window.matchMedia('(hover: none), (pointer: coarse)').matches;
 
   const config = {
-    SIM_RESOLUTION: small ? 192 : 256, // malla de velocidad (lado corto)
-    DYE_MAX: small ? 1024 : 1440,      // resolución máxima de la tinta (lado corto)
-    MAX_DPR: 2,
+    SIM_RESOLUTION: small ? 144 : 256, // malla de velocidad (lado corto)
+    DYE_MAX: small ? 820 : 1440,       // resolución máxima de la tinta (lado corto)
+    MAX_DPR: small ? 1.75 : 2,
 
-    DENSITY_DISSIPATION: 0.05,  // la tinta tarda en diluirse
+    DENSITY_DISSIPATION: 0.06,  // la tinta tarda en diluirse
     VELOCITY_DISSIPATION: 0.4,  // el agua se calma pronto
     PRESSURE: 0.8,
-    PRESSURE_ITERATIONS: 24,
-    CURL: 1.5,
+    PRESSURE_ITERATIONS: small ? 16 : 24,
+    CURL: 2.4,                  // remolinos finos en los bordes de cada nube
 
-    GRAVITY: 0.02,              // la tinta se hunde despacio
+    // Gotas que caen desde arriba (como tinta vertida en un vaso de agua)
+    DROP_SPEED: [0.08, 0.14],   // velocidad inicial de caída
+    DROP_EVERY: [4.5, 7],
+
+    GRAVITY: 0.05,              // la tinta, más pesada que el agua, cae por su peso
 
     // Corrientes de tinta que entran desde los bordes
     STREAM_SPEED: [0.05, 0.09],
@@ -682,6 +688,76 @@
   }
 
   /* ------------------------------------------------------------------ */
+  /* Gotas: tinta vertida desde arriba. Cae con una "cabeza" densa que se  */
+  /* enrosca y deja arriba un rastro de hilos finos, como en la foto.      */
+  /* ------------------------------------------------------------------ */
+
+  const drops = [];
+
+  function addDrop(x, { at = 0, y = 1.04, scale = 1 } = {}) {
+    const s = scale * (small ? 0.85 : 1.2);
+    drops.push({
+      x, y,
+      t: -at,
+      speed: pick(config.DROP_SPEED) * scale,
+      life: rand(3.2, 4.2),     // tiempo que sigue entrando tinta
+      head: rand(1.0, 1.4),     // primeros segundos: la cabeza densa
+      ink: rand(13, 17) * scale,
+      radius: rand(0.00018, 0.00032) * s,
+      spread: rand(0.018, 0.03) * s, // tamaño de la nube de la cabeza
+      kick: 0,
+      sway: rand(0.006, 0.014),
+      freq: rand(1.2, 2.2),
+      phase: rand(0, Math.PI * 2),
+      lean: rand(-0.015, 0.015), // caída apenas inclinada
+    });
+  }
+
+  function updateDrops(dt) {
+    const a = aspect();
+    for (let i = drops.length - 1; i >= 0; i--) {
+      const d = drops[i];
+      d.t += dt;
+      if (d.t < 0) continue;
+      if (d.t > d.life) {
+        drops.splice(i, 1);
+        continue;
+      }
+      // La gota frena a medida que se abre en el agua.
+      const v = d.speed * Math.exp(-d.t * 0.4);
+      d.y -= v * dt;
+      d.x += (d.lean * dt) / a;
+      const sway = Math.sin(d.t * d.freq + d.phase) * d.sway;
+      const px = d.x + sway / a;
+
+      if (d.t < d.head) {
+        // Cabeza: varias gotitas alrededor del centro forman una nube
+        // irregular (nunca un anillo perfecto) que se enrosca al caer.
+        const k = Math.sin(Math.PI * Math.min(1, (d.t / d.head) * 1.4));
+        const puffs = 4;
+        for (let j = 0; j < puffs; j++) {
+          const ang = rand(0, Math.PI * 2);
+          const r = Math.sqrt(Math.random()) * d.spread;
+          splatInk(px + (Math.cos(ang) * r) / a, d.y + Math.sin(ang) * r * 0.75, (d.ink * k * dt) / puffs, d.radius * rand(0.5, 1.6));
+        }
+        // Empuje hacia abajo con un desvío lateral que cambia: rompe la simetría.
+        d.kick = d.kick * 0.96 + rand(-1, 1) * 0.08;
+        splatVelocity(px + (rand(-0.5, 0.5) * d.spread) / a, d.y - 0.006, d.kick * v * 20 * dt, -v * 9 * k * dt, d.radius * 2.5);
+        // Remolinos pequeños al azar en el borde: los rizos de la foto.
+        if (Math.random() < dt * 5) {
+          const ang = rand(0, Math.PI * 2);
+          swirl(px + (Math.cos(ang) * d.spread * 1.2) / a, d.y + Math.sin(ang) * d.spread, sign() * rand(0.03, 0.06), Math.pow(d.spread * rand(0.4, 0.7), 2));
+        }
+      } else {
+        // Rastro: hilos finos y grises que bajan detrás de la cabeza.
+        const fade = 1 - (d.t - d.head) / (d.life - d.head);
+        splatInk(px + (rand(-0.3, 0.3) * d.spread) / a, d.y + d.spread, 1.4 * fade * dt, d.radius * 0.35);
+        splatVelocity(px, d.y, 0, -v * 6 * fade * dt, d.radius * 2);
+      }
+    }
+  }
+
+  /* ------------------------------------------------------------------ */
   /* Zonas de texto: la tinta automática las evita. Solo el usuario,      */
   /* arrastrando el agua con el cursor, puede llevar tinta sobre ellas.   */
   /* ------------------------------------------------------------------ */
@@ -984,40 +1060,19 @@
     }
   }
 
-  const timers = { stream: 0, vortex: 3 };
-  // Estas corrientes ya se simulan antes del primer cuadro (ver warmUp).
-  // Entradas repartidas a lo ancho, para que cada carga se vea pareja.
+  // Después de la entrada, cada cierto tiempo cae otra gota en uno de los
+  // carriles de arriba (rotan, para que no se amontonen).
+  const timers = { drop: 0, vortex: 4 };
   const jitter = (v, j) => v + rand(-j, j);
-  const intro = [
-    { at: 0, edge: 'top', pos: jitter(0.22, 0.04) },
-    { at: 0.35, edge: 'right', pos: jitter(0.66, 0.06) },
-    { at: 0.7, edge: 'top', pos: jitter(0.78, 0.04) },
-    { at: 1.3, edge: 'left', pos: jitter(0.7, 0.06) },
-    { at: 1.9, edge: 'top', pos: jitter(0.5, 0.05) },
-  ];
-  // Después, las corrientes de arriba rotan por posiciones fijas (sin amontonarse).
-  const topSlots = [0.15, 0.38, 0.62, 0.85].sort(() => Math.random() - 0.5);
-  let slot = 0;
-  const edges = ['top', 'top', 'left', 'right'];
-  let clock = 0;
-  let lastEdge = '';
+  const lanes = (small ? [0.22, 0.5, 0.78] : [0.14, 0.36, 0.6, 0.84]).sort(() => Math.random() - 0.5);
+  let lane = 0;
 
   function autoplay(dt) {
-    clock += dt;
-    while (intro.length && intro[0].at <= clock) {
-      const next = intro.shift();
-      addStream(next.edge, next.pos);
-    }
-    if (clock < 3) return;
-
-    timers.stream -= dt;
+    timers.drop -= dt;
     timers.vortex -= dt;
-    if (timers.stream <= 0) {
-      let edge;
-      do { edge = edges[Math.floor(Math.random() * edges.length)]; } while (edge === lastEdge && edge !== 'top');
-      lastEdge = edge;
-      addStream(edge, edge === 'top' ? jitter(topSlots[slot++ % topSlots.length], 0.05) : undefined);
-      timers.stream = pick(config.STREAM_EVERY);
+    if (timers.drop <= 0) {
+      addDrop(jitter(lanes[lane++ % lanes.length], 0.05), { y: 1.08, scale: rand(0.8, 1.1) });
+      timers.drop = pick(config.DROP_EVERY);
     }
     if (timers.vortex <= 0) {
       addAmbientVortex();
@@ -1036,7 +1091,7 @@
     return { x: (e.clientX - c.left) / c.width, y: 1 - (e.clientY - c.top) / c.height };
   }
 
-  window.addEventListener('pointermove', (e) => {
+  if (!touch) window.addEventListener('pointermove', (e) => {
     if (!running) return;
     markUserNear(e.clientX, e.clientY);
     const { x, y } = toUv(e);
@@ -1241,6 +1296,7 @@
     if (resizeCanvas()) initFramebuffers();
     autoplay(dt);
     updateSources(dt);
+    updateDrops(dt);
     applyPointer(dt);
     applyStirs();
     step(dt);
@@ -1265,81 +1321,27 @@
   }
 
   /**
-   * La página abre con tinta ya desparramada: se siembran manchas por toda
-   * la pantalla y se simulan unos segundos antes del primer cuadro.
+   * La página abre como la foto de referencia: varias gotas ya cayendo desde
+   * arriba, cada una a distinta profundidad. Se simulan unos segundos antes
+   * del primer cuadro y luego siguen bajando.
    */
   function warmUp(seconds) {
     updateAvoidZones(1);
-    // Tinta repartida en zonas: una mancha por celda de una cuadrícula, con un
-    // poco de azar dentro de cada celda. Así ninguna carga sale amontonada ni vacía.
-    minGap = 0.2;
-    const cols = small ? 2 : 4;
-    const rows = small ? 3 : 2;
-    for (let r = 0; r < rows; r++) {
-      for (let c = 0; c < cols; c++) {
-        for (let tries = 0; tries < 5; tries++) {
-          const x = (c + 0.5 + rand(-0.3, 0.3)) / cols;
-          const y = (r + 0.5 + rand(-0.3, 0.3)) / rows;
-          if (isBlocked(x, y)) continue;
-          scatter(x, y);
-          break;
-        }
-      }
-    }
-    minGap = 0.38;
+    const order = lanes.slice().sort((p, q) => p - q);
+    // Distinta profundidad para cada gota (unas más avanzadas que otras).
+    const delays = (small ? [0, 1.1, 0.5] : [0.6, 0, 1.4, 0.9]).sort(() => Math.random() - 0.5);
+    order.forEach((x, i) => addDrop(jitter(x, 0.03), { at: delays[i], y: rand(1.0, 1.06), scale: rand(0.8, 1.2) }));
+    timers.drop = rand(2.5, 4);
 
-    // Revueltas amplias, como si alguien hubiera removido el agua con calma:
-    // estiran la tinta en vetas por toda la pantalla (efecto mármol).
-    const pathCount = small ? 3 : 4;
-    const stirPaths = Array.from({ length: pathCount }, (_, i) => ({
-      y0: (i + 0.5) / pathCount + rand(-0.06, 0.06),
-      amp: rand(0.08, 0.2),
-      waves: rand(0.8, 1.6),
-      phase: rand(0, Math.PI * 2),
-      dir: i % 2 ? 1 : -1,
-      start: i * 0.25 + rand(0, 0.2),
-      length: rand(1.4, 2.2),
-    }));
-    const stirAt = (path, u) => {
-      const x = path.dir > 0 ? u : 1 - u;
-      return [x, path.y0 + Math.sin(u * Math.PI * 2 * path.waves + path.phase) * path.amp];
-    };
-    // Corrientes amplias y lentas que estiran la tinta en vetas, como mármol.
-    for (let i = 0; i < 3; i++) {
-      vortices.push({
-        x: (i + 0.5) / 3 + rand(-0.08, 0.08),
-        y: rand(0.3, 0.7),
-        t: 0,
-        life: seconds + 1.5,
-        speed: sign() * rand(0.06, 0.1),
-        radius: Math.pow(rand(0.22, 0.32), 2),
-      });
-    }
-    const dt = 1 / 30;
-    const a = aspect();
+    const dt = small ? 1 / 22 : 1 / 30;
     for (let t = 0; t < seconds; t += dt) {
-      autoplay(dt);
+      updateDrops(dt);
       updateSources(dt);
-      stirPaths.forEach((path) => {
-        const u = (t - path.start) / path.length;
-        if (u < 0 || u > 1) return;
-        const [x0, y0] = stirAt(path, u);
-        const [x1, y1] = stirAt(path, Math.min(1, u + dt / path.length));
-        const vx = ((x1 - x0) * a) / dt;
-        const vy = (y1 - y0) / dt;
-        splatVelocity(x0, y0, vx * 0.35, vy * 0.35, 0.0035);
-      });
       step(dt);
       applyClean(dt);
     }
     render();
   }
-
-  resizeCanvas();
-  initFramebuffers();
-  makeStamps();
-  warmUp(reduceMotion.matches ? 6 : 4.5);
-  root.classList.add('ink-ready');
 
   /** Movimiento reducido: la composición inicial se queda quieta. */
   function applyMotionPreference() {
@@ -1350,20 +1352,32 @@
       start();
     }
   }
-  applyMotionPreference();
-  if (reduceMotion.addEventListener) reduceMotion.addEventListener('change', applyMotionPreference);
+  /* Primero se pinta la página (textos, menú) y después se prepara la tinta:
+     así la carga se siente inmediata, sobre todo en celular. */
+  let booted = false;
+  function boot() {
+    resizeCanvas();
+    initFramebuffers();
+    warmUp(small ? 6 : 6.5);
+    root.classList.add('ink-ready');
+    booted = true;
 
-  // Fuera de la vista no se simula nada: la página va más fluida.
-  if ('IntersectionObserver' in window) {
-    new IntersectionObserver(([entry]) => {
-      heroVisible = entry.isIntersecting;
-      if (heroVisible) start();
-      else stop();
-    }).observe(canvas);
+    applyMotionPreference();
+    if (reduceMotion.addEventListener) reduceMotion.addEventListener('change', applyMotionPreference);
+
+    // Fuera de la vista no se simula nada: la página va más fluida.
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(([entry]) => {
+        heroVisible = entry.isIntersecting;
+        if (heroVisible) start();
+        else stop();
+      }).observe(canvas);
+    }
   }
+  requestAnimationFrame(() => setTimeout(boot, 0));
 
   window.addEventListener('resize', () => {
-    if (running) return; // el bucle ya ajusta el tamaño
+    if (!booted || running) return; // el bucle ya ajusta el tamaño
     if (resizeCanvas()) {
       initFramebuffers();
       render();

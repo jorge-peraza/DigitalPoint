@@ -1442,11 +1442,10 @@ em {
   letter-spacing: -0.02em;
 }
 
-/* En el pie oscuro se invierte: líneas blancas */
+/* El mismo cubo que el favicon y el logo de arriba */
 .footer-brand .logo-cube {
-  width: 24px;
-  height: 24px;
-  filter: invert(1);
+  width: 26px;
+  height: 26px;
 }
 
 .footer-brand em {
@@ -1475,6 +1474,18 @@ em {
 
 .footer-legal {
   color: rgba(255, 255, 255, 0.45);
+}
+
+.footer-legal a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .footer-legal a:hover {
+    color: var(--white);
+  }
 }
 
 .footer :focus-visible {
@@ -1980,6 +1991,39 @@ em {
   }
   .js .mb-section.is-revealed .mb-copy .btn {
     transition-delay: 150ms;
+  }
+
+  /* Rendimiento en celular: nada de desenfoques en vivo (son lo más caro de
+     pintar al hacer scroll); fondos sólidos que se ven igual. */
+  .nav,
+  .footer {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  .nav {
+    background: rgba(244, 244, 242, 0.985);
+  }
+  .footer {
+    background: #19191b;
+  }
+  .mb-shadow {
+    filter: none;
+    background: radial-gradient(closest-side, rgba(12, 12, 13, 0.2), rgba(12, 12, 13, 0.08) 55%, rgba(12, 12, 13, 0));
+  }
+  .lid-logo {
+    filter: none;
+  }
+  .mb-words {
+    will-change: auto;
+  }
+
+  /* Gama baja: la laptop aparece ya abierta con un desvanecido */
+  .mb-static .mb-stage {
+    opacity: 0;
+    transition: opacity 700ms ease;
+  }
+  .mb-static.is-revealed .mb-stage {
+    opacity: 1;
   }
 }
 

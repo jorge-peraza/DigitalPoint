@@ -104,7 +104,13 @@
       end: { x: 0, y: 0, rx: -15, ry: -24, rz: -11 },
       lidOpen: 108,
     };
-    const DURATION = 7000; // ms del recorrido completo
+    // Celular / pantalla chica: recorrido más corto (menos tiempo animando).
+    const compact = window.matchMedia('(hover: none), (pointer: coarse), (max-width: 760px)').matches;
+    // Teléfonos de gama baja: la laptop aparece ya abierta con un desvanecido,
+    // sin animación 3D, para que el scroll nunca se trabe.
+    const lowEnd = compact && ((navigator.deviceMemory && navigator.deviceMemory <= 3)
+      || (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4));
+    const DURATION = compact ? 5200 : 7000; // ms del recorrido completo
 
     /* Luz: cada cara conoce hacia dónde mira; al girar la laptop se recalcula
        cuánta luz recibe (sombra) y dónde cae el brillo del aluminio. */
@@ -146,6 +152,7 @@
       });
     };
 
+    let lit = [Infinity, Infinity, Infinity, Infinity];
     const render = (p, floatT, calm = 1) => {
       // 0 → 0.55 entra girando · 0.42 → 0.86 se abre
       const travel = spring(p / 0.55, 5.5, 3.2);   // traslado: sin rebote
@@ -168,7 +175,14 @@
 
       body.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(2)}px, 0) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) rotateZ(${rz.toFixed(2)}deg)`;
       hinge.style.transform = `rotateX(${open.toFixed(2)}deg)`;
-      light(rx, ry, rz, open);
+      // La luz de las ~20 caras solo se recalcula si la laptop giró lo
+      // suficiente para notarse (en celular, con más margen): ahorra trabajo.
+      const step = compact ? 2.5 : 0.8;
+      if (calm === 0 || Math.abs(rx - lit[0]) > step || Math.abs(ry - lit[1]) > step
+        || Math.abs(rz - lit[2]) > step || Math.abs(open - lit[3]) > step) {
+        lit = [rx, ry, rz, open];
+        light(rx, ry, rz, open);
+      }
     };
 
     /* El texto aparece detrás de la laptop: una cortina con borde difuminado
@@ -288,6 +302,9 @@
 
     if (reduceMotion.matches) {
       finish();
+    } else if (lowEnd) {
+      section.classList.add('mb-static');
+      render(1, 0, 0);
     } else {
       render(0, 0);
       revealBehind(-Infinity, false);
@@ -305,6 +322,10 @@
           cancelAnimationFrame(rafId);
           // Si ya empezó y el usuario se fue, al volver la encuentra terminada y quieta.
           if (startedAt && !finished) finish();
+          return;
+        }
+        if (lowEnd) {
+          if (ratio >= 0.3 && !finished) finish(); // aparece ya abierta, con desvanecido
           return;
         }
         if (startedAt) play();                 // la termina si quedó a medias
